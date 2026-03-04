@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>8/3 Cho Bé Iuu</title>
+    <style>
+        body {
+            margin: 0; padding: 0; height: 100vh; overflow: hidden;
+            background: radial-gradient(circle, #fff0f3 0%, #ffe4e9 60%, #ffcbd1 100%); 
+            display: flex; flex-direction: column; align-items: center;
+            font-family: 'Arial', sans-serif; touch-action: manipulation;
+        }
+
+        /* DÂY TREO NGANG */
+        .photo-wall { width: 100vw; height: 180px; position: relative; margin-top: 25px; z-index: 10; }
+        .string { width: 100%; height: 2px; background-color: #d2b48c; position: absolute; top: 10px; display: flex; justify-content: space-evenly; }
+        .photo-item { width: 15%; max-width: 85px; position: relative; transform-origin: top center; animation: swing 3s ease-in-out infinite; }
+        .photo-item::before { content: ''; position: absolute; top: -8px; left: 50%; transform: translateX(-50%); width: 6px; height: 16px; background-color: #deb887; border-radius: 2px; z-index: 11; }
+        .polaroid { background: #fff; padding: 4px 4px 10px 4px; border-radius: 2px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin-top: 8px; }
+        .polaroid img { width: 100%; aspect-ratio: 1/1; display: block; object-fit: cover; }
+
+        /* NỘI DUNG CHỮ CHÍNH */
+        .content-text { text-align: center; margin-top: 15px; z-index: 30; pointer-events: none; animation: swayText 4s ease-in-out infinite; }
+        h1 { color: #ff4d6d; font-size: 2.3rem; margin: 0; text-shadow: 2px 2px 8px rgba(255, 77, 109, 0.3); }
+        .name { color: #ff758f; font-size: 2rem; font-weight: bold; margin: 5px 0; display: block; animation: swing 3.5s ease-in-out infinite reverse; }
+        .wish { color: #c9184a; font-size: 1rem; font-style: italic; padding: 0 25px; line-height: 1.4; }
+
+        /* TRÁI TIM 3D BAY LÊN */
+        .heart-3d { 
+            position: absolute; bottom: -100px; width: 30px; height: 30px; background: #ff4d6d; 
+            box-shadow: inset -5px -5px 15px rgba(0,0,0,0.2), inset 5px 5px 10px rgba(255, 255, 255, 0.4); 
+            animation: fly var(--duration) linear infinite; z-index: 5; 
+        }
+        .heart-3d::before, .heart-3d::after { content: ''; position: absolute; width: 30px; height: 30px; background: inherit; border-radius: 50%; }
+        .heart-3d::before { top: -15px; left: 0; }
+        .heart-3d::after { top: 0; left: 15px; }
+
+        /* CHỮ BAY PHỤ */
+        .flying-text { 
+            position: absolute; bottom: -50px; font-weight: bold; font-style: italic;
+            opacity: 0.5; z-index: 2; white-space: nowrap; 
+            animation: flySimple var(--duration) linear infinite; 
+        }
+
+        @keyframes fly { 
+            0% { transform: translateY(0) rotate(var(--r1)) scale(0.3); opacity: 0; } 
+            15% { opacity: 0.8; }
+            90% { opacity: 0.8; }
+            100% { transform: translateY(-130vh) rotate(var(--r2)) scale(1.4); opacity: 0; } 
+        }
+        @keyframes flySimple { 
+            0% { transform: translateY(0); opacity: 0; } 
+            20% { opacity: 0.5; }
+            100% { transform: translateY(-120vh); opacity: 0; } 
+        }
+        @keyframes swayText { 0%, 100% { transform: translateY(0) rotate(-1deg); } 50% { transform: translateY(-10px) rotate(1deg); } }
+        @keyframes swing { 0%, 100% { transform: rotate(4deg); } 50% { transform: rotate(-4deg); } }
+    </style>
+</head>
+<body onclick="playMusic()" ontouchstart="playMusic()">
+
+    <audio id="myAudio" loop playsinline>
+        <source src="Westlife -  Beautiful in white (Lyrics) - AweLyrics.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="photo-wall">
+        <div class="string">
+            <div class="photo-item" style="animation-delay: 0s;"><div class="polaroid"><img src="IMG_1364.jpeg"></div></div>
+            <div class="photo-item" style="animation-delay: 0.3s;"><div class="polaroid"><img src="anh1.jpeg"></div></div>
+            <div class="photo-item" style="animation-delay: 0.6s;"><div class="polaroid"><img src="anh2.jpeg"></div></div>
+            <div class="photo-item" style="animation-delay: 0.9s;"><div class="polaroid"><img src="anh3.jpeg"></div></div>
+            <div class="photo-item" style="animation-delay: 1.2s;"><div class="polaroid"><img src="anh4.jpeg"></div></div>
+            <div class="photo-item" style="animation-delay: 1.5s;"><div class="polaroid"><img src="anh5.jpeg"></div></div>
+        </div>
+    </div>
+
+    <div class="content-text">
+        <h1>Chúc mừng 8/3</h1>
+        <div class="name">🌸 Bé iuu 🌸</div>
+        <p class="wish">Chúc em luôn xinh đẹp, hạnh phúc </p>
+        <p class="wish">và bên anh thật lâu nhé ^-^ ! </p>
+    </div>
+
+    <script>
+        const audio = document.getElementById("myAudio");
+        let isStarted = false;
+
+        function playMusic() {
+            if (!isStarted) {
+                audio.play();
+                isStarted = true;
+                // Tạo một đợt tim nổ tung khi chạm
+                for(let i=0; i<15; i++) setTimeout(createHeart, i*100);
+            }
+        }
+
+        function createHeart() {
+            const h = document.createElement('div');
+            h.classList.add('heart-3d');
+            h.style.left = Math.random() * 100 + "vw";
+            h.style.setProperty('--r1', Math.random() * 360 + "deg");
+            h.style.setProperty('--r2', (Math.random() * 1080 - 540) + "deg"); // Xoay tít hơn
+            h.style.setProperty('--duration', (Math.random() * 2 + 3) + "s"); // Bay nhanh hơn một chút
+            const colors = ['#ff4d6d', '#ff758f', '#fb6f92', '#ff85a1', '#ffb3c1'];
+            h.style.backgroundColor = colors[Math.floor(Math.random()*colors.length)];
+            document.body.appendChild(h);
+            setTimeout(() => h.remove(), 5000);
+        }
+
+        function createFlyingText() {
+            const t = document.createElement('div');
+            t.classList.add('flying-text');
+            const msg = ["Yêu em", "Xoàii iu", "moaaa", "Xinh đẹppp", "Bé Iuuu", "8/3 vui vẻ", "Thương lắm"];
+            t.innerText = msg[Math.floor(Math.random() * msg.length)];
+            t.style.left = Math.random() * 80 + "vw";
+            t.style.color = "#c9184a";
+            t.style.fontSize = (Math.random() * 0.4 + 0.9) + "rem";
+            t.style.setProperty('--duration', (Math.random() * 3 + 4) + "s");
+            document.body.appendChild(t);
+            setTimeout(() => t.remove(), 7000);
+        }
+
+        // TĂNG MẬT ĐỘ TẠI ĐÂY:
+        setInterval(createHeart, 200); // Cứ 0.2 giây tạo 1 tim (Rất nhiều)
+        setInterval(createFlyingText, 1200); // Cứ 1.2 giây tạo 1 chữ bay
+    </script>
+</body>
+</html>
